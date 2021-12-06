@@ -281,7 +281,7 @@ def risk(request):
     data2[["spread", "DXY"]] = scaler.fit_transform(data2[["spread", "DXY"]])
 
     #모델설정
-    model = RandomForestClassifier(max_depth=12, min_samples_leaf=8, min_samples_split=8, n_estimators=100)
+    model = RandomForestClassifier(max_depth=5, min_samples_leaf=9, min_samples_split=7,n_estimators = 50)
     X_train = data2.iloc[:, 1:3]         # X열
     y_train = data2.iloc[:, [3]]         # 라벨링
     X_test = data2.iloc[[len(data2) - 1], 1:3]
