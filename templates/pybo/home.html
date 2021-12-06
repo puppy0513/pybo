@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr class="thead-dark">
+            <th>Kospi</th>
+            <th>Kosdaq</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{div1| safe}}</td>
+            <td>{{div2| safe}}</td>
+        </tr>
+        </tbody>
+    </table>
+    
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load pybo_filter %}
+{% block content %}
+
+<div class="container show-grid">
+    <div class="row">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">오늘의 Risk 평가 </h5>
+                <h6 class="card-subtitle mb-2 text-muted">주가 폭락위험 판단 범위: {{ day.0 }} ~ {{ day.1 }}</h6>
+                <p class="card-text">
+                <h4>
+                    {% if pred %}
+                    {{ day.0 }} ~ {{ day.1 }} 에 주가가 크게 떨어질 가능성이 70%정도 있습니다. 시기에 맞춰 자산방어에 주의 해주세요.
+                    {% else %}
+                    {{ day.0 }} ~ {{ day.1 }} 에 주가가 크게 떨어질 가능성이 없습니다. 투자해도 괜찮습니다.
+                    {% endif %}
+                </h4>
+                </p>
+                <p class="card-text">
+                <h5>
+                    주어진 모델은 1988년 부터 현재 날짜까지 랜덤포레스트 모델로 학습했으며, Precision 값이 68%입니다. 이는 모델이 True라고 예측하였을때, 그 예측이 맞을 확률이
+                    68%라는 뜻입니다.
+                </h5>
+                </p>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr class="thead-dark">
+                <th>No.</th>
+                <th>Date</th>
+                <th>달러인덱스</th>
+                <th>10Y - 2Y 국채 스프레드</th>
+                <th>라벨링</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if risk_list %}
+            {% for risk in risk_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ risk.Date }}</td>
+                <td>{{ risk.DXY}}</td>
+                <td>{{ risk.spread}}</td>
+                <td>{{ risk.Label}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="3">질문이 없습니다.</td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <!-- 페이징처리 시작 -->
+        <ul class="pagination justify-content-center">
+            <!-- 이전페이지 -->
+            {% if risk_list.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ risk_list.previous_page_number }}">이전</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            </li>
+            {% endif %}
+            <!-- 페이지리스트 -->
+            {% for page_number in risk_list.paginator.page_range %}
+            {% if page_number >= risk_list.number|add:-5 and page_number <= risk_list.number|add:5 %}
+            {% if page_number == risk_list.number %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            <!-- 다음페이지 -->
+            {% if risk_list.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ risk_list.next_page_number }}">다음</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="card" style="width: 60%;">
+        <img src="https://media.vlpt.us/images/puppy0513/post/c1764b86-6369-41df-9491-42416699ac78/randomforestpredict.png" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">Classification Graph</h5>
+            <p class="card-text">RandomForest Classification으로 훈련 데이터를 모델에 적용한뒤 데이터를 그래프로 나타내었습니다. GridSearchCV로 가장 좋은 결과를 나타내는 하이퍼파라미터를 찾은후 적용하였다.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
