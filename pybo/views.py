@@ -287,8 +287,8 @@ def risk(request):
 
     #모델설정
     model = KNeighborsClassifier(n_neighbors =3 , weights='distance', metric='euclidean')
-    X = data2.iloc[:[len(data2) - 1], 1:3]         # X열
-    y = data2.iloc[:[len(data2) - 1], [3]]         # 라벨링
+    X = data2.iloc[:len(data2) - 1, 1:3]         # X열
+    y = data2.iloc[:len(data2) - 1, [3]]         # 라벨링
     X_test = data2.iloc[[len(data2) - 1], 1:3]
 
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
