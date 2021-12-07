@@ -24,6 +24,9 @@ import json
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import RobustScaler
 import investpy
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import KFold
+from sklearn.metrics import accuracy_score
 
 
 def index(request):
@@ -283,12 +286,18 @@ def risk(request):
     data2[["spread", "DXY"]] = scaler.fit_transform(data2[["spread", "DXY"]])
 
     #모델설정
-    model = RandomForestClassifier(max_depth=5, min_samples_leaf=9, min_samples_split=7, n_estimators=50)
-    X_train = data2.iloc[:, 1:3]         # X열
-    y_train = data2.iloc[:, [3]]         # 라벨링
+    model = KNeighborsClassifier(n_neighbors =3 , weights='distance', metric='euclidean')
+    X = data2.iloc[:[len(data2) - 1], 1:3]         # X열
+    y = data2.iloc[:[len(data2) - 1], [3]]         # 라벨링
     X_test = data2.iloc[[len(data2) - 1], 1:3]
 
-    model.fit(X_train, y_train)         # 모델 트레이닝
+    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index, :], X.iloc[test_index, :]
+        y_train, y_test = y.iloc[train_index, :], y.iloc[test_index, :]
+        model.fit(X_train, y_train)
+
     y_pred = model.predict(X_test)
 
     paginator = Paginator(risk_list, 10)  # 페이지당 10개씩 보여주기

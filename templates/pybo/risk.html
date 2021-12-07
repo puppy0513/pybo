@@ -11,7 +11,7 @@
                 <p class="card-text">
                 <h4>
                     {% if pred %}
-                    {{ day.0 }} ~ {{ day.1 }} 에 주가가 크게 떨어질 가능성이 70%정도 있습니다. 시기에 맞춰 자산방어에 주의 해주세요.
+                    {{ day.0 }} ~ {{ day.1 }} 에 주가가 크게 떨어질 가능성이 98%정도 있습니다. 시기에 맞춰 자산방어에 주의 해주세요.
                     {% else %}
                     {{ day.0 }} ~ {{ day.1 }} 에 주가가 크게 떨어질 가능성이 없습니다. 투자해도 괜찮습니다.
                     {% endif %}
@@ -19,7 +19,7 @@
                 </p>
                 <p class="card-text">
                 <h5>
-                    주어진 모델은 1988년 부터 현재 날짜까지 랜덤포레스트 모델로 학습했으며, Precision 값이 최고 88%, 평균 85% 입니다.이는 모델이 True라고 예측하였을때, 그 예측이 맞을 확률이 최고 88%라는 뜻입니다.
+                    주어진 모델은 1988년 부터 현재 날짜까지 랜덤포레스트 모델로 학습했으며, Precision 값이 최고 98%, 평균 97% 입니다.이는 모델이 True라고 예측하였을때, 그 예측이 맞을 확률이 최고 98%라는 뜻입니다.
                 </h5>
                 </p>
             </div>
@@ -91,7 +91,7 @@
         </ul>
     </div>
     <div class="card" style="width: 60%;">
-        <img src="https://media.vlpt.us/images/puppy0513/post/c1764b86-6369-41df-9491-42416699ac78/randomforestpredict.png" class="card-img-top">
+        <img src="https://media.vlpt.us/images/dochi0513/post/a294b19c-c3ab-4f4e-9e4e-ddd439bd2a50/image.png" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">Classification Graph</h5>
             <p class="card-text">RandomForest Classification으로 훈련 데이터를 모델에 적용한뒤 데이터를 그래프로 나타내었습니다. GridSearchCV로 가장 좋은 결과를 나타내는 하이퍼파라미터를 찾은후 적용하였다.
