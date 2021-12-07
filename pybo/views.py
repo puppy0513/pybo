@@ -287,9 +287,9 @@ def risk(request):
 
     #모델설정
     model = KNeighborsClassifier(n_neighbors =3 , weights='distance', metric='euclidean')
-    X = data2.iloc[:len(data2) - 1, 1:3]         # X열
-    y = data2.iloc[:len(data2) - 1, [3]]         # 라벨링
-    X_test = data2.iloc[[len(data2) - 1], 1:3]
+    X = data2.iloc[:, 1:3]         # X열
+    y = data2.iloc[:, [3]]         # 라벨링
+    X_test_1 = data2.iloc[[len(data2) - 1], 1:3]
 
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
@@ -298,7 +298,7 @@ def risk(request):
         y_train, y_test = y.iloc[train_index, :], y.iloc[test_index, :]
         model.fit(X_train, y_train)
 
-    y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test_1)
 
     paginator = Paginator(risk_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
