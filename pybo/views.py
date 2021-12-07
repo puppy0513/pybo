@@ -160,6 +160,7 @@ def kospi_detail(request,kospi_id):
         kospi_id = kospi_id.zfill(6)
 
     df = fdr.DataReader(kospi_id,'2021-09-01')
+    df = df.sort_index(ascending=False)
     #차트 그리기
     
     #데이터 형 변환
@@ -189,6 +190,7 @@ def kosdaq_detail(request,kosdaq_id):
         kosdaq_id = kosdaq_id.zfill(6)
 
     df = fdr.DataReader(kosdaq_id,'2021-09-01')
+    df = df.sort_index(ascending=False )
 
     #데이터 형 변환
     df.index = df.index.astype(str)
@@ -281,7 +283,7 @@ def risk(request):
     data2[["spread", "DXY"]] = scaler.fit_transform(data2[["spread", "DXY"]])
 
     #모델설정
-    model = RandomForestClassifier(max_depth=5, min_samples_leaf=9, min_samples_split=7,n_estimators = 50)
+    model = RandomForestClassifier(max_depth=5, min_samples_leaf=9, min_samples_split=7, n_estimators=50)
     X_train = data2.iloc[:, 1:3]         # X열
     y_train = data2.iloc[:, [3]]         # 라벨링
     X_test = data2.iloc[[len(data2) - 1], 1:3]
